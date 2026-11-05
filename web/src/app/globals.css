@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+/* ── CSS Variables ─────────────────────────────────────────────────────── */
+:root {
+  --bg:               #ffffff;
+  --bg-secondary:     #f8f9fa;
+  --sidebar-bg:       #eef1f8;
+  --sidebar-hover:    #dde1ea;
+  --sidebar-active:   #d3e3fd;
+  --sidebar-active-text: #1a73e8;
+  --surface:          #f0f4f9;
+  --surface-hover:    #e4e8f0;
+  --border:           #e8eaed;
+  --border-strong:    #dadce0;
+  --text:             #1f1f1f;
+  --text-secondary:   #444746;
+  --text-muted:       #5f6368;
+  --text-placeholder: #9aa0a6;
+  --blue:             #1a73e8;
+  --blue-hover:       #e8f0fe;
+  --blue-light:       #d2e3fc;
+  --red:              #ea4335;
+  --green:            #34a853;
+  --composer-bg:      #f0f4f9;
+  --composer-border:  #e8eaed;
+  --user-bubble:      #f0f4f9;
+  --scrollbar:        #dadce0;
+  --shadow-sm:        0 1px 3px rgba(0,0,0,0.10);
+  --shadow-md:        0 4px 12px rgba(0,0,0,0.12);
+  --sidebar-w:        300px;
+}
+
+.dark {
+  --bg:               #131314;
+  --bg-secondary:     #1c1c1e;
+  --sidebar-bg:       #1a1b1e;
+  --sidebar-hover:    #2a2b2e;
+  --sidebar-active:   #1e3a5f;
+  --sidebar-active-text: #8ab4f8;
+  --surface:          #28292c;
+  --surface-hover:    #333537;
+  --border:           #3c3f43;
+  --border-strong:    #4a4e53;
+  --text:             #e3e3e3;
+  --text-secondary:   #bdc1c6;
+  --text-muted:       #9aa0a6;
+  --text-placeholder: #6b7280;
+  --blue:             #8ab4f8;
+  --blue-hover:       #1e3a5f;
+  --blue-light:       #1a3354;
+  --red:              #f28b82;
+  --green:            #81c995;
+  --composer-bg:      #28292c;
+  --composer-border:  #3c3f43;
+  --user-bubble:      #28292c;
+  --scrollbar:        #4a4e53;
+  --shadow-sm:        0 1px 3px rgba(0,0,0,0.40);
+  --shadow-md:        0 4px 12px rgba(0,0,0,0.50);
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  height: 100%;
+  /* Allow scroll on mobile; we clip per-container */
+  overflow-x: hidden;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;           /* clip at body for desktop app feel */
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Google Sans", "Roboto", system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.2s, color 0.2s;
+  /* Safe area for notched phones */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ── Scrollbars ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── Focus ───────────────────────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* ── Gradient text ───────────────────────────────────────────────────────── */
+.gradient-name {
+  background: linear-gradient(90deg, #1a73e8 0%, #7c3aed 50%, #db2777 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeInUp 0.3s ease-out; }
+
+@keyframes blink { 0%,100%{ opacity:1 } 50%{ opacity:0 } }
+.typing-cursor::after {
+  content: "▋";
+  animation: blink 1s step-start infinite;
+  color: var(--blue);
+  margin-left: 1px;
+}
+
+@keyframes bounceDot {
+  0%,80%,100% { transform: translateY(0); }
+  40%         { transform: translateY(-6px); }
+}
+
+@keyframes voiceBar {
+  from { transform: scaleY(0.3); opacity: 0.5; }
+  to   { transform: scaleY(1);   opacity: 1; }
+}
+
+/* ── Markdown prose ──────────────────────────────────────────────────────── */
+.prose { color: var(--text); }
+.prose h1,.prose h2,.prose h3 { font-weight:600; margin:1em 0 0.4em; color:var(--text); }
+.prose p { margin-bottom:0.7em; }
+.prose ul,.prose ol { padding-left:1.5em; margin-bottom:0.7em; }
+.prose li { margin-bottom:0.25em; }
+.prose table { border-collapse:collapse; width:100%; margin-bottom:1em; overflow-x:auto; display:block; }
+.prose th,.prose td { border:1px solid var(--border); padding:0.5em 0.75em; text-align:left; white-space:nowrap; }
+.prose th { background:var(--surface); font-weight:600; }
+.prose blockquote { border-left:3px solid var(--blue); padding-left:1em; color:var(--text-muted); font-style:italic; margin:0.75em 0; }
+.prose a { color:var(--blue); text-decoration:underline; text-underline-offset:2px; word-break:break-all; }
+.prose strong { font-weight:600; }
+.prose code:not(pre code) {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:4px; padding:0.1em 0.4em;
+  font-family:"Roboto Mono",monospace; font-size:0.875em;
+  color:var(--text); word-break:break-all;
+}
+pre { border-radius:12px; overflow:hidden; margin:0.75em 0; max-width:100%; overflow-x:auto; }
+
+/* ── Responsive breakpoints ──────────────────────────────────────────────── */
+
+/* Mobile — up to 639px */
+@media (max-width: 639px) {
+  :root { --sidebar-w: 280px; }
+  body  { font-size: 14px; }
+
+  /* Composer full width, less padding */
+  .composer-wrap { padding: 6px 12px 16px !important; }
+
+  /* Message list tighter padding */
+  .message-list-inner { padding: 16px 12px !important; }
+
+  /* EmptyState single column cards */
+  .suggestion-grid { grid-template-columns: 1fr !important; }
+
+  /* Hide model picker label on tiny screens */
+  .model-label { display: none !important; }
+
+  /* TopBar: hide Upgrade text, keep icon only */
+  .upgrade-text { display: none !important; }
+}
+
+/* Tablet — 640px–1023px */
+@media (min-width: 640px) and (max-width: 1023px) {
+  :root { --sidebar-w: 260px; }
+
+  /* EmptyState 2-col cards on tablet */
+  .suggestion-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* Desktop — 1024px+ */
+@media (min-width: 1024px) {
+  .suggestion-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+/* Touch devices — remove hover effects that feel sticky */
+@media (hover: none) {
+  button:hover { opacity: 1 !important; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
