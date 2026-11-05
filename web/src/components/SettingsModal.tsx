@@ -171,7 +171,7 @@ export function SettingsModal({ open, onClose }: Props) {
                     onClick={() => setSettings({ model: m.id })}
                     style={{
                       display: "flex", alignItems: "center", justifyContent: "space-between",
-                      padding: "14px 16px", borderRadius: 12, border: "none",
+                      padding: "14px 16px", borderRadius: 12,
                       background: settings.model === m.id ? "var(--blue-hover)" : "var(--surface)",
                       border: `1.5px solid ${settings.model === m.id ? "var(--blue)" : "transparent"}`,
                       cursor: "pointer", width: "100%", textAlign: "left",

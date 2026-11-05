@@ -227,7 +227,7 @@ export function Sidebar({ onClose, onSettingsOpen, activeNav, onNavChange }: Pro
               return (
                 <button
                   key={conv.id}
-                  onClick={() => { setActiveConversation(conv.id); setActiveNav("chat"); onClose?.(); }}
+                  onClick={() => { setActiveConversation(conv.id); onNavChange("chat"); onClose?.(); }}
                   style={{
                     display: "flex", alignItems: "center", gap: 12,
                     padding: "9px 16px", borderRadius: 9999, border: "none",
