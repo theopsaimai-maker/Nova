@@ -1,14 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
 
-const url  = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const url  = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
 // ── Browser client (singleton) ────────────────────────────────────────────────
 let _browser: ReturnType<typeof createClient> | null = null;
 
 export function getSupabase() {
+  if (!url || !anon) throw new Error("Supabase env vars not set");
   if (typeof window === "undefined") {
-    // Server-side — create a fresh instance
     return createClient(url, anon);
   }
   if (!_browser) _browser = createClient(url, anon);

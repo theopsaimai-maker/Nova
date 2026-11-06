@@ -36,7 +36,22 @@ export function useSupabaseSync() {
 
   // ── Step 1: Resolve current Supabase session ────────────────────────────────
   useEffect(() => {
-    const sb = getSupabase();
+    // Guard: if Supabase env vars are missing, run in offline mode
+    if (
+      !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    ) {
+      setStatus("offline");
+      return;
+    }
+
+    let sb: ReturnType<typeof getSupabase>;
+    try {
+      sb = getSupabase();
+    } catch {
+      setStatus("offline");
+      return;
+    }
 
     const bootstrap = async () => {
       setStatus("syncing");
@@ -62,13 +77,10 @@ export function useSupabaseSync() {
             isGuest: false,
           });
         } else {
-          // Sign in anonymously so guest users still get a Supabase ID
-          const { data, error } = await sb.auth.signInAnonymously();
-          if (error) throw error;
-          if (data.user) {
-            setUserId(data.user.id);
-            await upsertUser({ id: data.user.id, is_guest: true });
-          }
+          // Guest users run offline — skip anonymous sign-in to avoid
+          // crashes when Supabase anonymous auth is disabled
+          setStatus("offline");
+          return;
         }
       } catch (err) {
         console.warn("[sync] bootstrap failed:", err);
