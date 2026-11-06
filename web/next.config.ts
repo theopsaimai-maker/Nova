@@ -44,8 +44,6 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  cacheComponents: true,
-  partialPrefetching: true,
 
   // Apply security headers to all routes
   async headers() {
