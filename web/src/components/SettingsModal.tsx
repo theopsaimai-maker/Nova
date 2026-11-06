@@ -174,7 +174,7 @@ export function SettingsModal({ open, onClose }: Props) {
                       padding: "14px 16px", borderRadius: 12,
                       background: settings.model === m.id ? "var(--blue-hover)" : "var(--surface)",
                       border: `1.5px solid ${settings.model === m.id ? "var(--blue)" : "transparent"}`,
-                      cursor: "pointer", width: "100%", textAlign: "left",
+                      cursor: "pointer", width: "100%",
                       transition: "all 0.15s", fontFamily: "inherit",
                     } as React.CSSProperties}
                     onMouseEnter={e => { if (settings.model !== m.id) e.currentTarget.style.background = "var(--surface-hover)"; }}
